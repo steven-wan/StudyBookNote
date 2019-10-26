@@ -15,6 +15,7 @@
 - git status [-sb] 查询文件的状态，那些文件是被跟踪的，那些是变动的跟上次 commit 对比
 - git reset --hard xxxx xxxx可以用来代表分支的东西，比如 分支名、tag、十六进制中的前6到7位 回到指定的特殊状态。
 - git reflog 用来查看所有记录 包括你 reset 的记录
+- git reset【Reset current HEAD to the specified state】 revert【Revert some existing commits】 restore【Restore working tree files】 之前的区别 。restore 是在 commit 之前你修改的文件进行恢复。 当你 add 以后 你只需要 --staged 就可以撤销之前的 add，然后 restore 就可以恢复你改动的地方。<br>revert 是针对已经 commit 的文件，可以恢复到你之前 commit 的任何一次。 而 reset 则是针对整体而言的，它是指可以回到每一次快照，这个不仅针对 commit，比如你做的 reset、revert、restore 当时的快照也可以回到。
 ##### master 不够用，分支、合并
 - git branch name-branch 新建分支，是在于你所在的分支而言【当只有一个时，那就是主分支】
 - git checkout name-branch 从当前分支切换到 name-branch 这个分支。注意一点的就是当你切换的时候，一定要注意你的代码跟你切换后的分支代码是否有冲突，<br>
