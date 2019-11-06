@@ -7,14 +7,73 @@
 - branch 的本质 <br>
 1、一个可以移动的指针，它指向某个提交对象，一个提交对象可以有多个指针指向它。每次提交，对应分支的指针向前移动一位<br>
 2、新建分支，就是新建一个指针，它开始是指向原分支的那个对象，随着这个分支的提交，新建分支也是随着移动<br>
-3、HEAD 特殊的指针，指的是当前最新提交<br>
+3、HEAD 特殊的指针，指的是当前最新提交
 - merge 的本质<br>
 1、将两个或者多个状态（代码快照\副本）合并，并产生一个新的状态提交<br>
 2、逐行检查，发现冲突，尝试解决，解决不了，报错，需要人工干预<br>
 3、解决冲突，就是修改冲突的文件，选择那些冲突应该正确的东西<br>
 4、严格按照提示进行操作， -- continue(继续)、skip(跳过)、abort(忽略)
--- rebase 的本质<br>
+- rebase 的本质<br>
 将某个状态上的变更（commit）进行重演，在另一个分支上的基础上重演提交。
+- fetch 的本质 
+就是获取远程分支的最新代码，它不会合并本地的分支
+- pull 的本质
+pull = fetch + merge<br>
+pull --rebase=fetch +rebase
+
+### rebase 、merge、merge --squash区别和注意事项
+1、在当前分支 rebase 另一个分支，那历史就是在另一个分支的历史状态基础上，将当期分支的提交进行重演，本分支的历史会是一条直线<br>
+2、在当前分支 merge 另一个分支，，在本分支会记录令一个分支的提交历史，然后解决冲突产生一个新的提交，本分支除了自己，还会有另一个分支的历史
+3、在当前分支 merge --squash 将另一个分支的所有提交合并成一个提交，本分支除了自己，还会有另一个分支的历史<br>
+#### 我们有如下状态的三对分支：
+
+```
+	  A---B---C test-my-feature-1
+	 /
+    D---E---F test-master-1
+    
+	  A---B---C test-my-feature-2
+	 /
+    D---E---F test-master-2
+
+	  A---B---C test-my-feature-3
+	 /
+    D---E---F test-master-3 
+```
+
+### merge
+
+请在`test-master-1`分支上合并`test-my-feature-1`分支，并产生一个合并提交，如图所示：
+
+```
+	  A---B---C test-my-feature-1
+	 /         \
+    D---E---F---G test-master-1
+```
+
+### rebase
+
+请在`test-my-feature-2`分支上rebase `test-master-2`分支，如图所示：
+
+```
+D---E---F---A'---B'---C' test-my-feature-2
+        |
+        test-master-2
+```
+
+### merge --squash练习
+
+请将`test-my-feature-3`分支上的3个提交使用`merge --squash`方式，使得这三个提交被合并成一个提交进入`test-master-3`分支
+
+```
+	  A---B---C test-my-feature-3
+	 /
+    D---E---F---G test-master-3 
+                |
+               压扁后的提交
+```
+
+
 ## git 三个分区 
 - 仓库、暂存区、工作区、【没有被 git 跟踪的区，叫 untrack 区】<br>
 1、 我们新建一个文件后，这个文件就是在 untrack 区。这个时候需要我们通过命令行 ` git add 新建的文件 ` 就会把新建的文件从 unstrack 区移动到工作区<br>
