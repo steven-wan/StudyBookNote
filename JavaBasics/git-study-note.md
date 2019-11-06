@@ -48,7 +48,7 @@ pull --rebase=fetch +rebase
 ```
 	  A---B---C test-my-feature-1
 	 /         \
-    D---E---F---G test-master-1
+     D---E---F------G test-master-1
 ```
 
 ### rebase
